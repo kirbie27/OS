@@ -31,6 +31,13 @@ public class CpuScheduling {
                 + "Enter choice: ");
         String answer = input.nextLine();
         System.out.println("You chose: "+answer);
+        if (answer.equalsIgnoreCase("A")) {
+            CpuSchedilingPreemptive.SJFP();
+        } else if (answer.equalsIgnoreCase("B")) {
+            CpuSchedilingPreemptive.priorityP();
+        } else {
+            System.out.println("Invalid Input. Please try again!");
+        }
     }
     
     public static void nonpreemptiveCpuScheduling(){
@@ -42,19 +49,16 @@ public class CpuScheduling {
                 + "Enter choice: ");
         String answer = input.nextLine();
         System.out.println("You chose: "+answer);
+        if (answer.equalsIgnoreCase("A")) {
+            FCFSNP();
+        } else if (answer.equalsIgnoreCase("B")) {
+            SJFNP();
+        } else {
+            System.out.println("Invalid Input. Please try again!");
+        }
  
     }
-    public static void SJFP(){
-        //Shortest Job First Preemptive
-        System.out.print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-                + "This is for Shortest Job First Preemptive");
-    }
-    
-    public static void priorityP(){
-        //Priority Preemptive
-        System.out.print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-              + "This is for Priority Preemptive");
-    }
+
     
     public static void FCFSNP(){
         //First come first served non preemptive
