@@ -35,7 +35,7 @@ public class OSProject {
              a = input.nextLine();
         }
         while(a.equalsIgnoreCase("Y"));
-        System.out.println("Thank you for using the program!");
+        System.out.println("\n~~~Thank you for using the program!~~~");
         
     }
  
