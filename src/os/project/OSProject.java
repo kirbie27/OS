@@ -13,17 +13,16 @@ public class OSProject {
                 + "-John Koby Reodica\n"
                 + "-John Jeco Villanueva\n"
                 + "-Joan Kirby C. Wenceslao");
-        System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        
         String a;
-       
         do 
         {
+            System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("Choose a scheduling simulation!");
             System.out.println("[A] CPU Scheduling");
             System.out.println("[B] Disk Scheduling");
             System.out.print("Enter A or B: ");
             String schedulingChoice = input.nextLine();
-            System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             if(schedulingChoice.equalsIgnoreCase("A"))
             {
                 CpuScheduling.runCpuScheduling();
@@ -32,11 +31,11 @@ public class OSProject {
             {
                 DiskScheduling.runDiskScheduling();
             }
-            System.out.println("\nDo you want to try again? (Y/N)");
+            System.out.print("\nDo you want to try again? (Y/N): ");
              a = input.nextLine();
         }
         while(a.equalsIgnoreCase("Y"));
-        
+        System.out.println("Thank you for using the program!");
         
     }
  
