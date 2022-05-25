@@ -28,53 +28,121 @@ public class CpuSchedulingPreemptive {
         Scanner input = new Scanner(System.in);
         //Priority Preemptive
         System.out.print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-              + "This is for Priority Preemptive");
+              + "This is for Priority Preemptive\n");
          
        System.out.print("Input no. of processes [2-9]: ");
        int processes = input.nextInt();
-       HashMap<Integer, Integer> arrivalsMap = new HashMap<>();
-       ArrayList<Integer> arrivalsArray = new ArrayList<Integer>();
-       ArrayList<Integer> burstsArray = new ArrayList<Integer>();
-       ArrayList<Integer> priorityArray = new ArrayList<Integer>();
+       while (processes < 2 || processes > 9) {
+            System.out.println("Invalid Input, try again.");
+            System.out.print("Input number of processes: ");
+            processes = input.nextInt();
+        }
+       
+       int[] arrivalsArray = new int[processes];
+       int[] burstsArray = new int[processes];
+       int[] priorityNumbersArray = new int[processes];
+       
        System.out.println("Input individual arrival time: ");
        for (int i=0;i<processes;i++){
-           System.out.println("Arrival Time ["+(i+1)+"]: ");
+           System.out.print("Arrival Time ["+(i+1)+"]: ");
            int arrivalTime = input.nextInt();
-           arrivalsArray.add(arrivalTime);
-           arrivalsMap.put(i, arrivalTime);
+           arrivalsArray[i] = arrivalTime;
        }
        System.out.println("Input individual burst time: ");
        for (int i=0;i<processes;i++){
-           System.out.println("Burst Time ["+(i+1)+"]: ");
+           System.out.print("Burst Time ["+(i+1)+"]: ");
            int burstTime = input.nextInt();
-           burstsArray.add(burstTime);
+           burstsArray[i] = burstTime;
        }
        System.out.println("Input individual priority number: ");
        for (int i=0;i<processes;i++){
-           System.out.println("Priority number ["+(i+1)+"]: ");
+           System.out.print("Priority number ["+(i+1)+"]: ");
            int priorityNumber = input.nextInt();
-           priorityArray.add(priorityNumber);
+           priorityNumbersArray[i] = priorityNumber;
        }
        
-       ArrayList<Integer> waitingArray = new ArrayList<Integer>();
-       ArrayList<Integer> turnaroundArray = new ArrayList<Integer>();
-       int averageWaitingTime = 0;
-       int averageTurnaroundTime = 0;
+       Priority priorityArray[] = new Priority[processes];
+       for (int i = 0; i < processes; i++){
+           priorityArray[i] = new Priority(i+1, arrivalsArray[i], burstsArray[i], priorityNumbersArray[i], 0, 0, 0, 0, burstsArray[i], false);
+       }
+       
+       int totalWaitingTime = 0;
+       int totalTurnAroundTime = 0;
+       float averageWaitingTime = 0;
+       float averageTurnAroundTime = 0;
+       
        int currentTime = 0;
+       int completed = 0;
+       //int previous = 0;
        
        //process
-       //start with lowest arrival
-       // if same arrival check
-       
-       //turnaround time = burst time + waiting time
+       while (completed != processes){
+           //find the process with the minimum priority time among the processes that are in ready queue at currentTime
+           int index = -1;
+           int min = 999;
+           //if the process is found
+           for (int i=0; i< processes; i++){
+               if ((priorityArray[i].arrivalTime <= currentTime) && priorityArray[i].isCompleted == false){
+                   if (priorityArray[i].priorityNumber < min) {
+                       min = priorityArray[i].priorityNumber;
+                       index = i;
+                   }
+                   if (priorityArray[i].priorityNumber == min) {
+                       if (priorityArray[i].arrivalTime < priorityArray[index].arrivalTime) {
+                           min = priorityArray[i].priorityNumber;
+                           index = i;
+                       }
+                   }
+               }
+           }
+           if (index != -1) {
+               if (priorityArray[index].remainingBurst == priorityArray[index].burstTime) {
+                  priorityArray[index].startTime = currentTime;
+               }
+           }
+           priorityArray[index].remainingBurst -= 1;
+           currentTime++;
+           //previous = currentTime;
+           if (priorityArray[index].remainingBurst == 0) {
+               priorityArray[index].completionTime = currentTime;
+               priorityArray[index].turnAroundTime = priorityArray[index].completionTime - priorityArray[index].arrivalTime;
+               priorityArray[index].waitingTime = priorityArray[index].turnAroundTime - priorityArray[index].burstTime;
+               
+               totalWaitingTime += priorityArray[index].waitingTime;
+               totalTurnAroundTime += priorityArray[index].turnAroundTime;
+               
+               priorityArray[index].isCompleted = true;
+               completed++;
+           }
+       }
+       averageWaitingTime = (float)totalWaitingTime/processes;
+       averageTurnAroundTime = (float)totalTurnAroundTime/processes;
        
        //output
-        System.out.println("Waiting time: \t\tTurnaround time: ");
-        for (int i=0;i<waitingArray.size();i++){
-            System.out.println("Process ["+(i+1)+"]:"+waitingArray.get(i)+"\t\t Process ["+(i+1)+"]:"+turnaroundArray.get(i));
+        System.out.println("Waiting time: \t\t\t Turnaround time: ");
+        for (int i=0;i<priorityArray.length;i++){
+            System.out.println("Process ["+(i+1)+"]:"+priorityArray[i].waitingTime+"\t\t\t Process ["+(i+1)+"]:"+priorityArray[i].turnAroundTime);
         }
-        System.out.println("Average Waiting Time: " + averageWaitingTime + "\t\tAverage Turnaround Time: " + averageTurnaroundTime);
+        System.out.println("Average Waiting Time: " + averageWaitingTime + "\t Average Turnaround Time: " + averageTurnAroundTime);
        
     }
     
 }
+
+class Priority {
+    int processNumber, arrivalTime, burstTime, priorityNumber, startTime, completionTime, turnAroundTime, waitingTime, remainingBurst;
+    boolean isCompleted;
+    Priority(int processNumber, int arrivalTime, int burstTime, int priorityNumber, int startTime, int completionTime, int turnAroundTime, int waitingTime, int remainingBurst, boolean isCompleted) {
+        this.processNumber = processNumber;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.priorityNumber = priorityNumber;
+        this.startTime = startTime;
+        this.completionTime = completionTime;
+        this.turnAroundTime = turnAroundTime;
+        this.waitingTime = waitingTime;
+        this.remainingBurst = remainingBurst;
+        this.isCompleted = isCompleted;
+    }
+}
+
