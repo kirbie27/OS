@@ -4,6 +4,7 @@ import java.util.*;
 public class DiskScheduling {
     static void runDiskScheduling(){
         //Ask user to choose from an option and redirects them to the proper functions.
+        System.out.print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
         Scanner input = new Scanner(System.in);
         System.out.print("Welcome to the Disk Scheduling Simulator.\n"
                 + "Please Choose between the options\n"

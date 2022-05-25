@@ -1,18 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package os.project;
 
 import java.util.Scanner;
-
-/**
- *
- * @author andrei
- */
-// Java program to implement Shortest Remaining Time First
-// Shortest Remaining Time First (SRTF)
 
 class Process
 {
@@ -32,16 +20,14 @@ public class SJFP
 {
 	// Method to find the waiting time for all
 	// processes
-	static void findWaitingTime(Process proc[], int n,int wt[])
-                
+	static void findWaitingTime(Process proc[], int n,int wt[])       
 	{
-            Scanner input = new Scanner(System.in);
 		int rt[] = new int[n];
 	
 		// Copy the burst time into rt[]
 		for (int i = 0; i < n; i++)
 			rt[i] = proc[i].bt;
-	
+                System.out.println("ANDREI");
 		int complete = 0, t = 0, minm = Integer.MAX_VALUE;
 		int shortest = 0, finish_time;
 		boolean check = false;
@@ -49,6 +35,7 @@ public class SJFP
 		// Process until all processes gets
 		// completed
 		while (complete != n) {
+                    System.out.println("loop");
 	
 			// Find process with minimum
 			// remaining time among the
@@ -80,7 +67,6 @@ public class SJFP
 			// If a process gets completely
 			// executed
 			if (rt[shortest] == 0) {
-	
 				// Increment complete
 				complete++;
 				check = false;
@@ -115,11 +101,14 @@ public class SJFP
 	// Method to calculate average time
 	static void findavgTime(Process proc[], int n)
 	{
-		int wt[] = new int[n], tat[] = new int[n];
+                
+		int wt[] = new int[n];
+                int tat[] = new int[n];
 		int total_wt = 0, total_tat = 0;
 	
 		// Function to find waiting time of all
 		// processes
+                System.out.println("HEREE");
 		findWaitingTime(proc, n, wt);
                 
                 System.out.print("time");
@@ -161,13 +150,13 @@ public class SJFP
                 
                 System.out.println("");
                 for (int x =0; x < processes; x++){
-                System.out.print("Input individual arrival time (" + (x + 1) + "): ");
+                System.out.print("Input individual arrival time [" + (char) (64 + (x + 1)) + "]: ");
                 ArrivalTime[x] = Integer.parseInt(input.nextLine());
                 }
                 
                 System.out.println("");
                 for (int x =0; x < processes; x++){
-                System.out.print("Input individual burst time (" + (x + 1) + "): ");
+                System.out.print("Input individual burst time [" + (char) (64 + (x + 1)) + "]: ");
                 ArrivalTime[x] = Integer.parseInt(input.nextLine());
                 }
                 
@@ -177,7 +166,7 @@ public class SJFP
                 for (int x = 1; x <= processes; x++){
                     proc[x - 1] = new Process(x, BurstTime[x - 1], ArrivalTime[x - 1]);
                 }
-                
+
                 System.out.print("hello pi");
 		findavgTime(proc, proc.length);
 	}

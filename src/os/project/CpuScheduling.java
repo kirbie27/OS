@@ -19,7 +19,6 @@ public class CpuScheduling {
             nonpreemptiveCpuScheduling();
         else
             System.out.println("Invalid Input. Please try again!");
-        
     }
     
     public static void preemptiveCpuScheduling(){
