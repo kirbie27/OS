@@ -31,9 +31,9 @@ public class CpuScheduling {
         String answer = input.nextLine();
         System.out.println("You chose: "+answer);
         if (answer.equalsIgnoreCase("A")) {
-            CpuSchedilingPreemptive.SJFP();
+            CpuSchedulingPreemptive.SJFP();
         } else if (answer.equalsIgnoreCase("B")) {
-            CpuSchedilingPreemptive.priorityP();
+            CpuSchedulingPreemptive.priorityP();
         } else {
             System.out.println("Invalid Input. Please try again!");
         }
