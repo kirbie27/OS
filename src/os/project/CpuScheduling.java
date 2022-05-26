@@ -63,6 +63,7 @@ public class CpuScheduling {
     }
     
     static void npScheduling(boolean isSJF){
+        char[] symbols = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'};
         Scanner input = new Scanner(System.in);
         int nNpProcesses = 0;
         
@@ -74,26 +75,28 @@ public class CpuScheduling {
         //Arrival Time I/O
         ArrayList<Integer> arrivalTimes = new ArrayList<>();
         System.out.println("Input individual arrival time: ");
-        for(int i = 1; i<=nNpProcesses; i++){
+        for(int i = 0; i<nNpProcesses; i++){
             int arrival = 0;
-            System.out.print("AT" + i + ": ");
+            System.out.print(symbols[i] + ": ");
             arrival = Integer.parseInt(input.nextLine());
             arrivalTimes.add(arrival);
         }
         
+        System.out.println("");
+        
         //Burst Time I/O
         ArrayList<Integer> burstTimes = new ArrayList<>();
         System.out.println("Input individual burst time: ");
-        for(int i = 1; i<=nNpProcesses; i++){
+        for(int i = 0; i<nNpProcesses; i++){
             int burst = 0;
-            System.out.print("BT" + i + ": ");
+            System.out.print(symbols[i] + ": ");
             burst = Integer.parseInt(input.nextLine());
             burstTimes.add(burst);
         }
         
         ArrayList<NpProcess> waitingNpProcesses = new ArrayList<>();
         for (int i=0; i<nNpProcesses; i++){
-            waitingNpProcesses.add(new NpProcess(i+1, arrivalTimes.get(i), burstTimes.get(i)));
+            waitingNpProcesses.add(new NpProcess(symbols[i], arrivalTimes.get(i), burstTimes.get(i)));
         }
         
         Collections.sort(waitingNpProcesses, new SortByArrivalTime());
@@ -105,77 +108,91 @@ public class CpuScheduling {
         int currentTime = queue.get(0).getATime();
         waitingNpProcesses.remove(0);
         
+        ArrayList<String> sequence = new ArrayList<>();
+        sequence.add("IDLE");
+        
         //Scheduling 
         //1 loop  = 1ms
         //Will run until queue and waiting NpProcess is empty
         while (!queue.isEmpty() || !waitingNpProcesses.isEmpty()){
             
-            //Add to Queue
-            for(int i=0; i<waitingNpProcesses.size(); i++){
-                NpProcess p = waitingNpProcesses.get(i);
-                //Exceeded the Current Time - None to Queue
-                if(currentTime < p.getATime()){
-                    break;
-                }
-                //The arrival time of the NpProcess equalst the current time
-                if(currentTime == p.getATime()){
-                    queue.add(p);
-                    waitingNpProcesses.remove(p);
-                }
+            while(!waitingNpProcesses.isEmpty() && currentTime == waitingNpProcesses.get(0).getATime()){
+                queue.add(waitingNpProcesses.get(0));
+                waitingNpProcesses.remove(waitingNpProcesses.get(0));
             }
             
             currentTime++;
             
+            
+            
             //Current NpProcess in Queue to NpProcess
-            NpProcess currentNpProcess = queue.get(0);
-            currentNpProcess.subtractBurst();
-            
-            
-            //If NpProcess in Queue Finishes Execution
-            if(currentNpProcess.getBTime() == 0){
-                currentNpProcess.finish(currentTime);
-                finishedNpProcesses.add(currentNpProcess);
-                queue.remove(currentNpProcess);
-                
-                //Shortest Job: Sort the Queue by its Burst Time; 
-                //FCFS: No need to Sort
-                if(isSJF)
-                    Collections.sort(queue, new SortByBurstTime());
-                
-//                System.out.println("C: " + currentNpProcess.getCTime() + "  -  Ta: " + currentNpProcess.getTaTime() 
-//                        + "  -  W: " + currentNpProcess.getWTime());
+            if(!queue.isEmpty()){
+                NpProcess currentNpProcess = queue.get(0);
+                currentNpProcess.subtractBurst();
+
+                //If NpProcess in Queue Finishes Execution
+                if(currentNpProcess.getBTime() == 0){
+                    currentNpProcess.finish(currentTime);
+                    finishedNpProcesses.add(currentNpProcess);
+                    queue.remove(currentNpProcess);
+
+                    //Shortest Job: Sort the Queue by its Burst Time; 
+                    //FCFS: No need to Sort
+                    if(isSJF)
+                        Collections.sort(queue, new SortByBurstTime());
+                    
+//                    System.out.println("C: " + currentNpProcess.getCTime() + "  -  Ta: " + currentNpProcess.getTaTime() 
+//                            + "  -  W: " + currentNpProcess.getWTime());
+                }
+                sequence.add(currentNpProcess.getID() + "");
+            } else {
+                sequence.add("IDLE");
             }
         }
         
-        printResults(finishedNpProcesses);
+        printResults(finishedNpProcesses, sequence);
         
         
     }
     
-    static void printResults(ArrayList<NpProcess> NpProcesses){
+    static void printResults(ArrayList<NpProcess> NpProcesses, ArrayList<String> sequence){
         Collections.sort(NpProcesses, new SortByID());
         double wAvg = 0;
         double tAvg = 0;
-        System.out.println("\tWaiting Time: \tTurnaround Time:");
+        System.out.println("\n\tTurnaround Time: \tWaiting Time:");
         for (int i = 0; i < NpProcesses.size(); i++) {
             NpProcess p = NpProcesses.get(i);
             wAvg += p.getWTime();
             tAvg += p.getTaTime();
-            System.out.println("P" + p.getID() + ":\t\t" + p.getWTime() + "\t\t" + p.getTaTime());
+            System.out.println(p.getID() + ":\t\t" + p.getTaTime() + "\t\t\t" + p.getWTime());
         }
         
         wAvg /= NpProcesses.size();
         tAvg /= NpProcesses.size();
         
         System.out.println("");
-        System.out.println("Average Waiting Time: " + wAvg + "\tTurnaround Time: " + tAvg);
+        System.out.println("Average Turnaround Time: " + tAvg + "\nAverage Waiting Time: " + wAvg);
         
+        System.out.println("\nCPU Scheduling Gantt Chart: ");
+        
+//        boolean isSimilar = false;
+        String s = "IDLE";
+        for (int i = 0; i < sequence.size(); i++) {
+            if(s.equalsIgnoreCase(sequence.get(i))){
+                System.out.print("[" + sequence.get(i) + "]");
+            } else {
+                System.out.print("=>" + "[" + sequence.get(i) + "]");
+            }
+            s = sequence.get(i);
+        }
+        
+        System.out.println("");
         
     }
 }
 
 class NpProcess{
-    int id;
+    char id;
     int aTime;
     int initialBTime;
     int bTime;
@@ -183,7 +200,7 @@ class NpProcess{
     int taTime = 0;
     int wTime = 0;
     
-    NpProcess(int id, int aTime, int bTime){
+    NpProcess(char id, int aTime, int bTime){
         this.id = id;
         this.aTime = aTime;
         this.bTime = bTime;
@@ -200,7 +217,7 @@ class NpProcess{
         this.wTime = this.taTime - this.initialBTime;
     }
     
-    int getID(){
+    char getID(){
         return this.id;
     }
     
