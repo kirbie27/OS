@@ -54,7 +54,7 @@ public class DiskScheduling {
         for(int i = 0; i < requests; i++) {
             System.out.printf("Track [%s]: ", String.valueOf(name));
             int requestPosition = Integer.parseInt(input.nextLine());
-            while(requestPosition < 0 || requestPosition > size) {
+            while(requestPosition < 0 || requestPosition > size - 1) {
                 System.out.println("Invalid Input, try again.");
                 System.out.printf("Track [%s]: ", String.valueOf(name));
                 requestPosition = Integer.parseInt(input.nextLine());
@@ -117,7 +117,7 @@ public class DiskScheduling {
         for(int i = 0; i < requests; i++) {
             System.out.printf("Track [%s]: ", String.valueOf(name));
             int requestPosition = Integer.parseInt(input.nextLine());
-            while(requestPosition < 0 || requestPosition > size) {
+            while(requestPosition < 0 || requestPosition > size - 1) {
                 System.out.println("Invalid Input, try again.");
                 System.out.printf("Track [%s]: ", String.valueOf(name));
                 requestPosition = Integer.parseInt(input.nextLine());
@@ -268,7 +268,7 @@ public class DiskScheduling {
         for(int i = 0; i < requests; i++) {
             System.out.printf("Track [%s]: ", String.valueOf(name));
             int requestPosition = Integer.parseInt(input.nextLine());
-            while(requestPosition < 0 || requestPosition > size) {
+            while(requestPosition < 0 || requestPosition > size - 1) {
                 System.out.println("Invalid Input, try again.");
                 System.out.printf("Track [%s]: ", String.valueOf(name));
                 requestPosition = Integer.parseInt(input.nextLine());
