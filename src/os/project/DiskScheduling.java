@@ -153,7 +153,7 @@ public class DiskScheduling {
            Request r = requestQ.get(i);
            int difference = Math.abs(currentPosition - r.location);
            if(difference < min) {
-               System.out.println(difference);
+               //System.out.println(difference);
                min = difference;
                minR = r;
                minIndex = i;

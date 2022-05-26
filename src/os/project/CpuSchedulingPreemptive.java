@@ -44,19 +44,19 @@ public class CpuSchedulingPreemptive {
        
        System.out.println("Input individual arrival time: ");
        for (int i=0;i<processes;i++){
-           System.out.print("Arrival Time ["+(i+1)+"]: ");
+           System.out.print("Arrival Time ["+(char) (64 + (i + 1))+"]: ");
            int arrivalTime = input.nextInt();
            arrivalsArray[i] = arrivalTime;
        }
-       System.out.println("Input individual burst time: ");
+       System.out.println("\nInput individual burst time: ");
        for (int i=0;i<processes;i++){
-           System.out.print("Burst Time ["+(i+1)+"]: ");
+           System.out.print("Burst Time ["+(char) (64 + (i + 1))+"]: ");
            int burstTime = input.nextInt();
            burstsArray[i] = burstTime;
        }
-       System.out.println("Input individual priority number: ");
+       System.out.println("\nInput individual priority number: ");
        for (int i=0;i<processes;i++){
-           System.out.print("Priority number ["+(i+1)+"]: ");
+           System.out.print("Priority number ["+(char) (64 + (i+ 1))+"]: ");
            int priorityNumber = input.nextInt();
            priorityNumbersArray[i] = priorityNumber;
        }
@@ -76,6 +76,9 @@ public class CpuSchedulingPreemptive {
        //int previous = 0;
        
        //process
+       ArrayList<Integer> seekQ = new ArrayList<>();
+       boolean processing = false;
+       int prev = -1;
        while (completed != processes){
            //find the process with the minimum priority time among the processes that are in ready queue at currentTime
            int index = -1;
@@ -96,10 +99,19 @@ public class CpuSchedulingPreemptive {
                }
            }
            if (index != -1) {
+               if(!processing || (processing && prev != index)){
+                   seekQ.add(index);
+                   processing = true;
+                   prev = index;
+               }
+             
+                
                if (priorityArray[index].remainingBurst == priorityArray[index].burstTime) {
                   priorityArray[index].startTime = currentTime;
                }
            }
+           
+           
            priorityArray[index].remainingBurst -= 1;
            currentTime++;
            //previous = currentTime;
@@ -119,12 +131,20 @@ public class CpuSchedulingPreemptive {
        averageTurnAroundTime = (float)totalTurnAroundTime/processes;
        
        //output
-        System.out.println("Waiting time: \t\t\t Turnaround time: ");
+        System.out.println("\nWaiting time: \t\t\t Turnaround time: ");
         for (int i=0;i<priorityArray.length;i++){
-            System.out.println("Process ["+(i+1)+"]:"+priorityArray[i].waitingTime+"\t\t\t Process ["+(i+1)+"]:"+priorityArray[i].turnAroundTime);
+            System.out.println("Process ["+(char) (64 + (i + 1))+"]:"+priorityArray[i].waitingTime+"\t\t\t Process ["+(char) (64 + (i + 1))+"]:"+priorityArray[i].turnAroundTime);
         }
         System.out.println("Average Waiting Time: " + averageWaitingTime + "\t Average Turnaround Time: " + averageTurnAroundTime);
-       
+        
+        //print gant
+        System.out.println("\nCPU Scheduling Gantt Chart:\n");
+        for(int i = 0; i < seekQ.size(); i++){
+            if(i == 0)
+                System.out.printf("IDLE -> [%s]",(char) (64 + (seekQ.get(i) + 1)));
+            else
+                System.out.printf(" -> [%s]",(char) (64 + (seekQ.get(i) + 1)));
+        }
     }
     
 }
