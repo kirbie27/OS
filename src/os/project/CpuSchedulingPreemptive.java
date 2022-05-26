@@ -20,7 +20,6 @@ public class CpuSchedulingPreemptive {
        
      
         SJFP.run(processes);
-        System.out.print("baby");
 
     }
     
@@ -99,18 +98,27 @@ public class CpuSchedulingPreemptive {
                }
            }
            if (index != -1) {
+               
+               /*
                if(!processing || (processing && prev != index)){
                    seekQ.add(index);
                    processing = true;
                    prev = index;
                }
-             
+               */
                 
                if (priorityArray[index].remainingBurst == priorityArray[index].burstTime) {
                   priorityArray[index].startTime = currentTime;
                }
            }
            
+           seekQ.add(index);
+           
+           if(index == -1)
+           {
+               currentTime++;
+               continue;
+           }
            
            priorityArray[index].remainingBurst -= 1;
            currentTime++;
@@ -139,12 +147,34 @@ public class CpuSchedulingPreemptive {
         
         //print gant
         System.out.println("\nCPU Scheduling Gantt Chart:\n");
+        
+        String prev2 = "";
         for(int i = 0; i < seekQ.size(); i++){
-            if(i == 0)
-                System.out.printf("IDLE -> [%s]",(char) (64 + (seekQ.get(i) + 1)));
+
+            int process = seekQ.get(i) + 1;
+            String p = "";
+            if(process <= 0)
+                p = "IDLE";
             else
-                System.out.printf(" -> [%s]",(char) (64 + (seekQ.get(i) + 1)));
+                p = String.format("%s", (char) (process + 64));
+
+            if(i == 0) {
+                System.out.printf("[IDLE] -> [%s]",p);
+                prev2 = p;
+            } 
+            else {
+                if(prev2.equals(p))
+                    System.out.printf("[%s]",p);
+                else {
+                    System.out.printf(" -> [%s]",p);
+                    prev2 = p;
+                }
+            }
+
         }
+
+        System.out.println();
+        
     }
     
 }
