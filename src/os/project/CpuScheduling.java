@@ -61,18 +61,6 @@ public class CpuScheduling {
         }
  
     }
-
-//    public static void FCFSNP(){
-//        //First come first served non preemptive
-//        System.out.print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-//              + "This is for First Come First Serve Non Preemptive");
-//    }
-//    
-//    public static void SJFNP(){
-//         //Shortest Job First Non-Preemptive
-//        System.out.print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-//              + "This is for Shortest Job First Non Preemptive");
-//    }
     
     static void npScheduling(boolean isSJF){
         Scanner input = new Scanner(System.in);

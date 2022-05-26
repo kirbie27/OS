@@ -189,7 +189,7 @@ public class DiskScheduling {
         for(int i = 0; i < requests; i++) {
             System.out.printf("Track [%s]: ", String.valueOf(name));
             int requestPosition = Integer.parseInt(input.nextLine());
-            while(requestPosition < 0 || requestPosition > size) {
+            while(requestPosition < 0 || requestPosition > size - 1) {
                 System.out.println("Invalid Input, try again.");
                 System.out.printf("Track [%s]: ", String.valueOf(name));
                 requestPosition = Integer.parseInt(input.nextLine());
@@ -223,6 +223,8 @@ public class DiskScheduling {
         seekQ.add(new Request("END OF DISK", size-1));
         totalHeadMovement += Math.abs(currentPosition - (size-1));
         currentPosition = size-1;
+
+        
         seekQ.add(new Request("START OF DISK", 0));
         totalHeadMovement += Math.abs(currentPosition - 0);
         currentPosition = 0;
