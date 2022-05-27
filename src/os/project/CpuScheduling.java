@@ -104,9 +104,19 @@ public class CpuScheduling {
         ArrayList<NpProcess> queue = new ArrayList<>();
         ArrayList<NpProcess> finishedNpProcesses = new ArrayList<>();
         
-        queue.add(waitingNpProcesses.get(0));
-        int currentTime = queue.get(0).getATime();
-        waitingNpProcesses.remove(0);
+        int currentTime = waitingNpProcesses.get(0).getATime();
+        
+        if(isSJF){
+            while(!waitingNpProcesses.isEmpty() && currentTime == waitingNpProcesses.get(0).getATime()){
+                queue.add(waitingNpProcesses.get(0));
+                waitingNpProcesses.remove(waitingNpProcesses.get(0));
+            }
+            Collections.sort(queue, new SortByBurstTime());
+        }
+        
+//        queue.add(waitingNpProcesses.get(0));
+        
+//        waitingNpProcesses.remove(0);
         
         ArrayList<String> sequence = new ArrayList<>();
         sequence.add("IDLE");
