@@ -244,7 +244,7 @@ public class DiskScheduling {
     
     public static void CLOOKD(){
        Scanner input = new Scanner(System.in);
-        //C-Look Disk Scheduling
+        // C-Look Disk Scheduling
         System.out.print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
                 + "This is for C-Look Disk Scheduling\n");
         //inputs: current position, track size, Requests (Max of 10), location of requests
