@@ -1,4 +1,4 @@
-# OS
+# Operating Systems
 OS Project
 
 A collaborative final academic project for a course that aims to simulate Disk Scheduling and Cpu Scheduling algorithms. The application includes the following algorithms:
@@ -19,14 +19,14 @@ Disk Scheduling
 3. C-Scan
 4. C-Look
 
-# Menu Screen
+## Menu Screen
 
-<p align="center" style="border: 2px solid black;">
-<img src="menu.png" width="400" title="Menu Page">
+<p align="center" >
+<img src="menu.png" width="400" title="Menu Page" style="border: 2px solid black;">
 </p>
 
-# Sample Run
+## Sample Run
 
-<p align="center" style="border: 2px solid black;">
-<img src="run.png" width="400" title="Run Page">
+<p align="center">
+<img src="run.png" width="400" title="Run Page" style="border: 2px solid black;">
 </p>
