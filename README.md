@@ -21,7 +21,7 @@ Disk Scheduling
 
 ## Menu Screen
 
-<p align="center" style="background-color: red;">
+<p align="center" style="padding: 2px; background-color: red;">
 <img src="menu.png" width="400" title="Menu Page" style="border: 2px solid black;">
 </p>
 
