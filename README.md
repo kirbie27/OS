@@ -21,12 +21,12 @@ Disk Scheduling
 
 ## Menu Screen
 
-<p align="center" style="padding: 2px; background-color: red;">
-<img src="menu.png" width="400" title="Menu Page" style="border: 2px solid black;">
+<p align="center">
+<img src="menu.png" width="400" title="Menu Page">
 </p>
 
 ## Sample Run
 
 <p align="center">
-<img src="run.png" width="400" title="Run Page" style="border: 2px solid black;">
+<img src="run.png" width="400" title="Run Page">
 </p>
